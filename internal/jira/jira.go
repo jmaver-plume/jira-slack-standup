@@ -46,10 +46,9 @@ func (j *Jira) GetIssue(key string) Issue {
 }
 
 func (j *Jira) GetIssues(keys []string) []Issue {
-	issues := make([]Issue, len(keys))
+	var issues []Issue
 	for _, key := range keys {
 		issues = append(issues, j.GetIssue(key))
 	}
-
 	return issues
 }
