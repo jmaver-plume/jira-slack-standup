@@ -1,3 +1,4 @@
+// Package jira is a wrapper around Jira REST API v2.
 package jira
 
 import (
@@ -23,6 +24,7 @@ type Jira struct {
 	BaseUrl  string
 }
 
+// GetIssue returns issue by Jira key as specified in https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-getIssue
 func (j *Jira) GetIssue(key string) Issue {
 	req, err := http.NewRequest("GET", fmt.Sprintf("%s/rest/api/2/issue/%s", j.BaseUrl, key), nil)
 	if err != nil {
@@ -45,6 +47,7 @@ func (j *Jira) GetIssue(key string) Issue {
 	return responseObject
 }
 
+// GetIssues calls GetIssue for issue item in keys
 func (j *Jira) GetIssues(keys []string) []Issue {
 	var issues []Issue
 	for _, key := range keys {

@@ -1,3 +1,4 @@
+// Package lineParser provides utility functions for line parsing
 package lineParser
 
 import "strings"
@@ -7,6 +8,7 @@ type Line struct {
 	Flags []string
 }
 
+// GetEnrichedFlags returns a mapping of each flag
 func (l *Line) GetEnrichedFlags() string {
 	result := ""
 	for _, v := range l.Flags {
