@@ -77,6 +77,7 @@ func (j *Jira) GetIssues(keys []string) []Issue {
 	return issues
 }
 
+// SearchIssue returns a list of issues as specified in https://confluence.atlassian.com/jirakb/how-to-parse-access-log-in-jira-for-audit-purposes-1004934149.html
 func (j Jira) SearchIssue(query string) SearchIssueResponse {
 	escapedQuery := url.QueryEscape(query)
 	req, err := http.NewRequest("GET", fmt.Sprintf("%s/rest/quicksearch/1.0/productsearch/search?q=%s", j.BaseUrl, escapedQuery), nil)
