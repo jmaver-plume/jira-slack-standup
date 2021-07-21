@@ -1,4 +1,4 @@
-// Package jira is a wrapper around Jira REST API v2.
+// Package jira is a wrapper around Client REST API v2.
 package jira
 
 import (
@@ -9,11 +9,6 @@ import (
 	"net/http"
 	"net/url"
 )
-
-type Issue struct {
-	Fields Fields `json:"fields"`
-	Key    string `json:"key"`
-}
 
 type SearchIssueResponse struct {
 	Id           string                    `json:"id"`
@@ -30,23 +25,37 @@ type SearchIssueItemResponse struct {
 	Favorite  bool   `json:"favorite"`
 }
 
-type Fields struct {
-	Summary string `json:"summary"`
-}
-
-type Jira struct {
+type Client struct {
 	Username string
 	Password string
 	BaseUrl  string
 }
 
-type IssueInterface interface {
-	GetIssue(string) Issue
-	GetIssues([]string) []Issue
+type issueResponse struct {
+	Fields issueFieldsResponse `json:"fields"`
+	Key    string              `json:"key"`
 }
 
-// GetIssue returns issue by Jira key as specified in https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-getIssue
-func (j *Jira) GetIssue(key string) Issue {
+type issueFieldsResponse struct {
+	Summary string `json:"summary"`
+}
+
+type Issue interface {
+	Get(string) issueResponse
+	List([]string) []issueResponse
+	Search(string) []issueResponse
+}
+
+func NewClient(username, password, baseUrl string) *Client {
+	return &Client{
+		Username: username,
+		Password: password,
+		BaseUrl:  baseUrl,
+	}
+}
+
+// GetIssue returns issue by Client key as specified in https://docs.atlassian.com/software/jira/docs/api/REST/7.6.1/#api/2/issue-getIssue
+func (j *Client) GetIssue(key string) issueResponse {
 	req, err := http.NewRequest("GET", fmt.Sprintf("%s/rest/api/2/issue/%s", j.BaseUrl, key), nil)
 	if err != nil {
 		log.Fatal(err)
@@ -63,14 +72,14 @@ func (j *Jira) GetIssue(key string) Issue {
 		log.Fatal(err)
 	}
 
-	var responseObject Issue
+	var responseObject issueResponse
 	json.Unmarshal(responseData, &responseObject)
 	return responseObject
 }
 
 // GetIssues calls GetIssue for issue item in keys
-func (j *Jira) GetIssues(keys []string) []Issue {
-	var issues []Issue
+func (j *Client) GetIssues(keys []string) []issueResponse {
+	var issues []issueResponse
 	for _, key := range keys {
 		issues = append(issues, j.GetIssue(key))
 	}
@@ -78,7 +87,7 @@ func (j *Jira) GetIssues(keys []string) []Issue {
 }
 
 // SearchIssue returns a list of issues as specified in https://confluence.atlassian.com/jirakb/how-to-parse-access-log-in-jira-for-audit-purposes-1004934149.html
-func (j Jira) SearchIssue(query string) SearchIssueResponse {
+func (j Client) SearchIssue(query string) []SearchIssueResponse {
 	escapedQuery := url.QueryEscape(query)
 	req, err := http.NewRequest("GET", fmt.Sprintf("%s/rest/quicksearch/1.0/productsearch/search?q=%s", j.BaseUrl, escapedQuery), nil)
 	if err != nil {
@@ -96,7 +105,7 @@ func (j Jira) SearchIssue(query string) SearchIssueResponse {
 		log.Fatal(err)
 	}
 
-	var responseObject SearchIssueResponse
+	var responseObject []SearchIssueResponse
 	json.Unmarshal(responseData, &responseObject)
 	return responseObject
 }
