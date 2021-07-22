@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"jiraEnrich/internal/jira"
+	"log"
 )
 
 var Username string
@@ -28,18 +29,27 @@ type AlfredItem struct {
 
 type AlfredItemIcon struct {
 	Type string `json:"type"`
-	path string `json:"path"`
+	Path string `json:"path"`
 }
 
 func init() {
 	rootCmd.PersistentFlags().StringVarP(&Username, "username", "u", "", "Username with which to make API requests to Jira")
-	rootCmd.MarkPersistentFlagRequired("username")
+	err := rootCmd.MarkPersistentFlagRequired("username")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	rootCmd.PersistentFlags().StringVarP(&Password, "password", "p", "", "Password which belongs to user")
-	rootCmd.MarkPersistentFlagRequired("password")
+	err = rootCmd.MarkPersistentFlagRequired("password")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	rootCmd.PersistentFlags().StringVarP(&BaseUrl, "url", "b", "", "Base url to call")
-	rootCmd.MarkPersistentFlagRequired("url")
+	err = rootCmd.MarkPersistentFlagRequired("url")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	rootCmd.PersistentFlags().BoolVarP(&Alfred, "alfred", "a", true, "Output valid for Alfred workflows")
 
@@ -87,7 +97,7 @@ var issueSearchCmd = &cobra.Command{
 				Autocomplete: item.Title,
 				Icon: AlfredItemIcon{
 					Type: item.AvatarUrl,
-					path: "",
+					Path: "",
 				},
 			})
 		}
@@ -98,6 +108,6 @@ var issueSearchCmd = &cobra.Command{
 			cmd.Println("Error")
 			return
 		}
-		cmd.Println(string(j))
+		fmt.Println(string(j))
 	},
 }
