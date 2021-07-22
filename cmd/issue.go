@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"jiraEnrich/internal/jira"
+	"jiraEnrich/internal/lineParser"
 	"log"
+	"strings"
 )
 
 var Username string
@@ -56,6 +58,7 @@ func init() {
 	rootCmd.AddCommand(issueCmd)
 	issueCmd.AddCommand(issueGetCmd)
 	issueCmd.AddCommand(issueSearchCmd)
+	issueCmd.AddCommand(issueEnrichCmd)
 }
 
 var issueCmd = &cobra.Command{
@@ -109,5 +112,23 @@ var issueSearchCmd = &cobra.Command{
 			return
 		}
 		fmt.Println(string(j))
+	},
+}
+
+var issueEnrichCmd = &cobra.Command{
+	Use:   "enrich [keys]",
+	Short: "Enrich a list of keys",
+	Long:  "Enrich a list of keys, delimited by newline character, by calling GetIssue for each key and returning <key>: <summary> format",
+	Args:  cobra.ExactArgs(1),
+	Run: func(cmd *cobra.Command, args []string) {
+		client := jira.NewClient(Username, Password, BaseUrl)
+		lines := lineParser.ParseLines(strings.Split(args[0], "\n"))
+		var r []string
+		for _, line := range lines {
+			issue := client.GetIssue(line.Key)
+			s := fmt.Sprintf("%s %s: %s", line.GetEnrichedFlags(), line.Key, issue.Fields.Summary)
+			r = append(r, s)
+		}
+		fmt.Println(r)
 	},
 }
