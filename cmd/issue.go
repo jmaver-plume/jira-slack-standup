@@ -126,9 +126,13 @@ var issueEnrichCmd = &cobra.Command{
 		var r []string
 		for _, line := range lines {
 			issue := client.GetIssue(line.Key)
-			s := fmt.Sprintf("%s %s: %s", line.GetEnrichedFlags(), line.Key, issue.Fields.Summary)
+			s := fmt.Sprintf("%s: %s", line.Key, issue.Fields.Summary)
+			ef := line.GetEnrichedFlags()
+			if ef != "" {
+				s = fmt.Sprintf("%s %s", ef, s)
+			}
 			r = append(r, s)
 		}
-		fmt.Println(r)
+		fmt.Println(strings.Join(r, "\n"))
 	},
 }
