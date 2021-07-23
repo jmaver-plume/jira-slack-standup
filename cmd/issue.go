@@ -116,10 +116,11 @@ var issueSearchCmd = &cobra.Command{
 }
 
 var issueEnrichCmd = &cobra.Command{
-	Use:   "enrich [keys]",
-	Short: "Enrich a list of keys",
-	Long:  "Enrich a list of keys, delimited by newline character, by calling GetIssue for each key and returning <key>: <summary> format",
-	Args:  cobra.ExactArgs(1),
+	Use:     "enrich [keys]",
+	Example: "jira enrich 'JIRA-1 b\\nJIRA-2 c'",
+	Short:   "Enrich a list of keys",
+	Long:    fmt.Sprintf("Enrich a list of keys, delimited by newline character.\nList of flags: %+v", lineParser.EnrichFlagMap),
+	Args:    cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		client := jira.NewClient(Username, Password, BaseUrl)
 		lines := lineParser.ParseLines(strings.Split(args[0], "\n"))
