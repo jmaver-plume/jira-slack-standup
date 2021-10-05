@@ -8,25 +8,25 @@ type Line struct {
 	Flags []string
 }
 
+var EnrichFlagMap = map[string]string{
+	"j": ":jira-new:",
+	"c": ":codereview:",
+	"w": ":white_check_mark:",
+	"b": ":building:",
+	"e": ":eyes:",
+	"r": ":brain:",
+	"m": ":merge:",
+}
+
 // GetEnrichedFlags returns a mapping of each flag
 func (l *Line) GetEnrichedFlags() string {
 	result := ""
 	for _, v := range l.Flags {
-		switch v {
-		case "j":
-			result += ":jira-new:"
-		case "c":
-			result += ":codereview:"
-		case "w":
-			result += ":white_check_mark:"
-		case "b":
-			result += ":building:"
-		case "e":
-			result += ":eyes:"
-		case "r":
-			result += ":brain:"
-
+		m, ok := EnrichFlagMap[v]
+		if !ok {
+			continue
 		}
+		result += m
 	}
 
 	return result
