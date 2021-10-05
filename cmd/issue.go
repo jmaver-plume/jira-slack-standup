@@ -127,7 +127,8 @@ var issueEnrichCmd = &cobra.Command{
 		var r []string
 		for _, line := range lines {
 			issue := client.GetIssue(line.Key)
-			s := fmt.Sprintf("%s: %s", line.Key, issue.Fields.Summary)
+			hrefKey := fmt.Sprintf("[%s](%s/browse/%s)", line.Key, client.BaseUrl, line.Key)
+			s := fmt.Sprintf("%s: %s", hrefKey, issue.Fields.Summary)
 			ef := line.GetEnrichedFlags()
 			if ef != "" {
 				s = fmt.Sprintf("%s %s", ef, s)
