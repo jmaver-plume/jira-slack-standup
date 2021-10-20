@@ -1,0 +1,33 @@
+{
+  "name": "jira-enrich-alfred",
+  "version": "1.0.0",
+  "description": "",
+  "bin": {
+    "jira": "cmd/issue.js"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jmaver-plume/jira-enrich-alfred.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jmaver-plume/jira-enrich-alfred/issues"
+  },
+  "homepage": "https://github.com/jmaver-plume/jira-enrich-alfred#readme",
+  "dependencies": {
+    "commander": "^8.2.0",
+    "conf": "^10.0.3",
+    "got": "^11.8.2",
+    "jira-client": "^6.23.0",
+    "lodash": "^4.17.21",
+    "mkdirp": "^1.0.4",
+    "prompt": "^1.2.0"
+  },
+  "devDependencies": {
+    "prettier": "^2.4.1"
+  },
+  "type": "module"
+}
