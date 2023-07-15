@@ -1,5 +1,4 @@
 import prompt from "prompt";
-import { config } from "../src/config/index.js";
 
 export function setConfigCommand(program) {
   program

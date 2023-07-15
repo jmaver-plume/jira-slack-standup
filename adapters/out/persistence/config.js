@@ -13,16 +13,16 @@ export class Config {
   }
 
   get() {
-    const filePath = this.getFilePath();
+    const filePath = this.#getFilePath();
     const file = fs.readFileSync(filePath, "utf-8");
     return JSON.parse(file);
   }
 
   save(username, password, hostname) {
-    const directoryPath = this.getDirectoryPath();
+    const directoryPath = this.#getDirectoryPath();
     mkdirp.sync(directoryPath);
 
-    const filePath = this.getFilePath();
+    const filePath = this.#getFilePath();
     const stringified = JSON.stringify(
       { username, password, hostname },
       null,
@@ -37,7 +37,7 @@ export class Config {
   }
 
   #getFilePath() {
-    const directoryPath = this.getDirectoryPath();
+    const directoryPath = this.#getDirectoryPath();
     return path.join(directoryPath, this.#fileName);
   }
 }
