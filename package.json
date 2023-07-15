@@ -1,9 +1,8 @@
 {
-  "name": "jira-enrich-alfred",
+  "name": "jira-enrich",
   "version": "1.0.0",
-  "description": "",
   "bin": {
-    "jira": "cmd/issue.js"
+    "jira": "adapters/in/cli/programs.js"
   },
   "scripts": {},
   "repository": {
@@ -12,12 +11,13 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/jmaver-plume/jira-enrich-alfred/issues"
   },
   "homepage": "https://github.com/jmaver-plume/jira-enrich-alfred#readme",
   "dependencies": {
+    "clipboardy": "^3.0.0",
     "commander": "^8.2.0",
     "conf": "^10.0.3",
     "got": "^11.8.2",

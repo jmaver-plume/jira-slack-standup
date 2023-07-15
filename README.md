@@ -45,7 +45,7 @@ jira config get
 #### Get one
 
 ```shell
-jira issue get JIRASUP-20 -f slack
+jira issue get JIRASUP-20
 
 # Output
 [JIRASUP-20](https://<hostname>/browse/JIRASEUP-20): <jira-summary>
@@ -54,7 +54,7 @@ jira issue get JIRASUP-20 -f slack
 #### Get many
 
 ```shell
-jira issue get JIRASUP-20 JIRASUP-21 -f slack
+jira issue get JIRASUP-20 JIRASUP-21
 
 # Output
 [JIRASUP-20](https://<hostname>/browse/JIRASEUP-20): <jira-summary>
