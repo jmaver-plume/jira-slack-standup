@@ -8,20 +8,28 @@ export function setConfigCommand(program) {
       prompt.start();
       const { username, password, hostname } = await new Promise(
         (resolve, reject) =>
-          prompt.get({
-            properties: {
-              username: {
-                required: true,
-              },
-              password: {
-                hidden: true,
-                required: true,
-              },
-              hostname: {
-                required: true,
+          prompt.get(
+            {
+              properties: {
+                username: {
+                  required: true,
+                },
+                password: {
+                  hidden: true,
+                  required: true,
+                },
+                hostname: {
+                  required: true,
+                },
               },
             },
-          })
+            (err, data) => {
+              if (err) {
+                return reject(err);
+              }
+              return resolve(data);
+            }
+          )
       );
 
       setConfigUseCase(username, password, hostname);
