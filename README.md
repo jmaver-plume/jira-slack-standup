@@ -1,12 +1,12 @@
-# Jira enrich for Alfred and Slack
+# Jira Slack Standup
 
-CLI tool, which takes Jira key as input and returns formatted output for Slack.
+CLI tool, which takes Jira key(s) as input and outputs to stdout and copies to clipboard formatted output for Slack.
 
 ## Installation
 
 ```shell
-git clone git+https://github.com/jmaver-plume/jira-enrich-alfred.git
-cd jira-enrich-alfred
+git clone git+https://github.com/jmaver-plume/jira-slack-standup.git
+cd jira-slack-standup
 npm install -g .
 ```
 
@@ -14,23 +14,21 @@ npm install -g .
 
 ### Config
 
-Path of configuration file is `~/.jira/config`.
-
 #### Set
 
 ```shell
-jira config set 
+jss config set
 
 # Output
-prompt: username: <username>
-prompt: password: <hidden-password>
-prompt: hostname: <hostname>
+prompt: username: <username> [optional]
+prompt: password: <hidden-password> [optional]
+prompt: hostname: <hostname> [required]
 ```
 
 #### Get
 
 ```shell
-jira config get
+jss config get
 
 # Output
 {
@@ -42,21 +40,22 @@ jira config get
 
 ### Issue
 
-#### Get one
+#### Get
 
 ```shell
-jira issue get JIRASUP-20 -f slack
+jss issue get JRA-9 JRA-10
 
 # Output
-[JIRASUP-20](https://<hostname>/browse/JIRASEUP-20): <jira-summary>
+[JRASERVER-9](https://<hostname>/browse/JRASERVER-9): <jira-summary>
+[JRASERVER-10](https://<hostname>/browse/JRASERVER-10): <jira-summary>
 ```
 
-#### Get many
+### Help
+
+Every command and subcommand has a help option.
 
 ```shell
-jira issue get JIRASUP-20 JIRASUP-21 -f slack
-
-# Output
-[JIRASUP-20](https://<hostname>/browse/JIRASEUP-20): <jira-summary>
-[JIRASUP-21](https://<hostname>/browse/JIRASEUP-21): <jira-summary>
+jss issue --help
+jss config get --help
+...
 ```
