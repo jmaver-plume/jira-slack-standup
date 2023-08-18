@@ -1,4 +1,4 @@
-import mkdirp from "mkdirp";
+import { mkdirp } from "mkdirp";
 import fs from "fs";
 import path from "path";
 import os from "os";

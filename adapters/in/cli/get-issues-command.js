@@ -1,4 +1,3 @@
-import commander from "commander";
 import { getJiraTicketDescriptions } from "../../../domain/get-jira-ticket-descriptions.js";
 
 export default function getIssuesCommand(program) {
