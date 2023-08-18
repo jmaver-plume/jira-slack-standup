@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "bin": {
-    "jira": "cmd/issue.js"
+    "jss": "adapters/in/cli/index.js"
   },
-  "scripts": {},
+  "scripts": {
+    "start": "node adapters/in/cli/index.js issue get 'JRA-9'"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jmaver-plume/jira-enrich-alfred.git"
@@ -18,6 +20,7 @@
   },
   "homepage": "https://github.com/jmaver-plume/jira-enrich-alfred#readme",
   "dependencies": {
+    "clipboardy": "^3.0.0",
     "commander": "^8.2.0",
     "conf": "^10.0.3",
     "got": "^11.8.2",
