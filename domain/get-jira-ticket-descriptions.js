@@ -13,7 +13,7 @@ function formatIssues(issues, hostname) {
 
 export async function getJiraTicketDescriptions(ids) {
   const { username, password, hostname } = getConfig();
-  const jira = new Jira(hostname, username, password);
+  const jira = new Jira(hostname, {username, password});
   const issues = await jira.getIssues(ids);
   const formattedIssues = formatIssues(issues, hostname);
   const serializedFormattedIssues = formattedIssues.toString();
